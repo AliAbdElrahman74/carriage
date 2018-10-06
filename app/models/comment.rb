@@ -1,4 +1,4 @@
-class Comment < ApplicationRecord
+class Comment < ActiveRecord::Base
 
   has_many :replies, dependent: :destroy, :class_name => "Comment", :foreign_key => "parent_id"
   belongs_to :parent, :class_name => "Comment", optional: true
