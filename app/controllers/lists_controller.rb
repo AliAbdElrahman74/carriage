@@ -3,9 +3,11 @@ class ListsController < ApplicationController
 
   # GET /lists
   def index
-    @lists = List.all
-
-    render json: @lists
+    @lists = List.paginate(pagination_params).all
+    render json: {
+      lists: serialized_object(@lists),
+      meta: pagination_response(@lists)
+    }
   end
 
   # GET /lists/1
