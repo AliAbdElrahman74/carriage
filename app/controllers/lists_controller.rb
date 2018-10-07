@@ -42,33 +42,33 @@ class ListsController < ApplicationController
   end
 
   def assign_member
-    user_id = params[:user_id]
+    user_id = params[:user_id].to_i
     user_ids = @list.user_ids
     if user_ids.include? user_id
       render json: "The resource is already existed", status: 409
+      return
     end
     @list.user_ids = user_ids + [user_id]
     render json: render_success_message
   end
 
   def unassign_member
-    user_id = params[:user_id]
+    user_id = params[:user_id].to_i
     user_ids = @list.user_ids
     unless user_ids.include? user_id
       render json: "The resource is already not existed", status: 402
+      return
     end
     @list.user_ids = user_ids - [user_id]
     render json: render_success_message
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_list
       @list = List.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def list_params
-      params.require(:list).permit(:title)
+      params.require(:list).permit(:title, :user_id)
     end
 end

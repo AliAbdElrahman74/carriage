@@ -2,7 +2,8 @@ class List < ActiveRecord::Base
 
   has_many :cards
   has_many :comments
-  belongs_to :user
+  has_many :users, :through => :list_users
+  has_many :list_users
 
   #scopes
   scope :by_admin, -> {List.all}

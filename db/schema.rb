@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181007115248) do
+ActiveRecord::Schema.define(version: 20181007132405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,11 +39,18 @@ ActiveRecord::Schema.define(version: 20181007115248) do
   add_index "comments", ["parent_id"], name: "index_comments_on_parent_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "list_users", force: :cascade do |t|
+    t.integer "list_id"
+    t.integer "user_id"
+  end
+
+  add_index "list_users", ["list_id", "user_id"], name: "index_list_users_on_list_id_and_user_id", using: :btree
+  add_index "list_users", ["user_id", "list_id"], name: "index_list_users_on_user_id_and_list_id", using: :btree
+
   create_table "lists", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "users", force: :cascade do |t|
