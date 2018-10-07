@@ -21,7 +21,15 @@ attr_reader :user, :list
   end
 
   def destroy?
+    @user.admin? && his_own_list
+  end
 
+  def assign_member?
+    @user.is_admin?
+  end
+
+  def unassign_member?
+    @user.is_admin?
   end
 
   class Scope < Scope

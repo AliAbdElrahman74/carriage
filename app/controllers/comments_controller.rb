@@ -1,14 +1,15 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :update, :destroy]
   has_scope :by_comment
-  has_Scope :by_card
+  has_scope :by_card
+  require 'will_paginate/array'
   # GET /comments
   def index
-    @comments = apply_scope(Comment).paginate(pagination_params).all
-    render json: {
-      comments: serialized_object(@comments),
-      meta: pagination_response(@comments)
-    }
+    @comments = apply_scopes(policy_scope(Comment.paginate(pagination_params)))
+    # render json: {
+    #   comments: serialized_object(@comments),
+    #   meta: pagination_response(@comments)
+    # }
     render json: @comments
   end
 

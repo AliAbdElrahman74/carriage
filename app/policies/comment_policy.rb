@@ -7,11 +7,11 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def index?
-
+    true
   end
 
   def create?
-    @user.is_admin?
+    @user.is_admin? || his_own_list
   end
 
   def update?
@@ -22,11 +22,18 @@ class CommentPolicy < ApplicationPolicy
     @comment.user_id == @user_id
   end
 
-  def assign_member?
-    @user.is_admin?
+  class Scope < Scope
+    def resolve
+      if @user.admin?
+        scope.by_admin
+      else
+        scope.by_member(@user.id)
+      end
+    end
   end
 
-  def unassign_member?
-    @user.is_admin?
+  private
+  def his_own_list
+    @user.list_ids.include? @list.id
   end
 end

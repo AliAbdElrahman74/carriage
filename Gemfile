@@ -12,6 +12,7 @@ gem 'pg', '~> 0.9'
 gem 'pundit', '~> 1.1'
 gem 'active_model_serializers', '0.10.0.rc4'
 gem 'will_paginate', '~> 3.1.0'
+gem 'has_scope', '~> 0.7.0'
 
 
 

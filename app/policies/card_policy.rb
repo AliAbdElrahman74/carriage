@@ -7,19 +7,29 @@ class CardPolicy < ApplicationPolicy
   end
 
   def index?
-
+    true
   end
 
   def create?
-    @user.is_admin?
+    @user.admin? || card_in_user_lists
   end
 
   def update?
-    @card.user_id == @user.id or card_in_user_lists
+    @card.user_id == @user.id or (card_in_user_lists && @user.admin?)
   end
 
   def destroy?
-    @card.user_id == @user.id or card_in_user_lists
+    @card.user_id == @user.id or (card_in_user_lists && @user.admin?)
+  end
+
+  class Scope < Scope
+    def resolve
+      if @user.admin?
+        scope.by_admin
+      else
+        scope.by_member(@user.id)
+      end
+    end
   end
 
   private
