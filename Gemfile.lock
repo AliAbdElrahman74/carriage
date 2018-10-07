@@ -54,6 +54,9 @@ GEM
     arel (6.0.4)
     bcrypt (3.1.11)
     builder (3.2.3)
+    bullet (5.7.6)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11.0)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     devise_token_auth (0.1.43)
@@ -156,6 +159,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    uniform_notifier (1.11.0)
     warden (1.2.7)
       rack (>= 1.0)
     will_paginate (3.1.6)
@@ -165,6 +169,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (= 0.10.0.rc4)
+  bullet
   devise!
   devise_token_auth
   factory_bot_rails
