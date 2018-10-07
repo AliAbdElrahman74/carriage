@@ -6,8 +6,6 @@ attr_reader :user, :list
     @list = list
   end
 
-
-
   def index?
     true
   end
@@ -16,20 +14,10 @@ attr_reader :user, :list
     @user.is_admin?
   end
 
-  def update?
-    @user.admin? && his_own_list
-  end
-
-  def destroy?
-    @user.admin? && his_own_list
-  end
-
-  def assign_member?
-    @user.admin? && his_own_list
-  end
-
-  def unassign_member?
-    @user.admin? && his_own_list
+  ["update", "destroy", "assign_member", "unassign_member"].each do |method|
+   define_method (method + "?") do
+      @user.admin? && his_own_list
+   end
   end
 
   class Scope < Scope

@@ -1,7 +1,6 @@
 class ListsController < ApplicationController
   before_action :set_list, except: [:index, :create]
 
-  # GET /lists
   def index
     @lists = policy_scope(List).paginate(pagination_params).all
     render json: {
@@ -10,12 +9,10 @@ class ListsController < ApplicationController
     }
   end
 
-  # GET /lists/1
   def show
     render json: @list
   end
 
-  # POST /lists
   def create
     @list = List.new(list_params)
 
@@ -26,7 +23,6 @@ class ListsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /lists/1
   def update
     if @list.update(list_params)
       render json: @list
@@ -35,7 +31,6 @@ class ListsController < ApplicationController
     end
   end
 
-  # DELETE /lists/1
   def destroy
     @list.destroy
   end

@@ -14,12 +14,10 @@ class CommentPolicy < ApplicationPolicy
     @user.is_admin? || his_own_list
   end
 
-  def update?
-    @comment.user_id == @user_id or (his_own_list && @user.admin?)
-  end
-
-  def destroy?
-    @comment.user_id == @user_id or (his_own_list && @user.admin?)
+  ["update", "destroy"].each do |method|
+   define_method (method + "?") do
+      @comment.user_id == @user_id or (his_own_list && @user.admin?)
+   end
   end
 
   class Scope < Scope

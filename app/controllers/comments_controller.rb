@@ -3,19 +3,16 @@ class CommentsController < ApplicationController
   has_scope :by_comment
   has_scope :by_card
   require 'will_paginate/array'
-  # GET /comments
   def index
     @comments = apply_scopes(policy_scope(Comment.paginate(pagination_params)))
 
     render json: @comments
   end
 
-  # GET /comments/1
   def show
     render json: @comment
   end
 
-  # POST /comments
   def create
     @comment = Comment.new(comment_params)
 
@@ -26,7 +23,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
       render json: @comment
@@ -35,18 +31,15 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1
   def destroy
     @comment.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def comment_params
       params.require(:comment).permit(:content, :parnet_id, :user_id, :card_id, :list_id)
     end

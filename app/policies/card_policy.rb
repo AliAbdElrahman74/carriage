@@ -14,12 +14,10 @@ class CardPolicy < ApplicationPolicy
     @user.admin? || card_in_user_lists
   end
 
-  def update?
-    @card.user_id == @user.id or (card_in_user_lists && @user.admin?)
-  end
-
-  def destroy?
-    @card.user_id == @user.id or (card_in_user_lists && @user.admin?)
+  ["update", "destroy"].each do |method|
+   define_method (method + "?") do
+      @card.user_id == @user.id or (card_in_user_lists && @user.admin?)
+   end
   end
 
   class Scope < Scope

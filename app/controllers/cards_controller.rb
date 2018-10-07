@@ -1,20 +1,16 @@
 class CardsController < ApplicationController
   before_action :set_card, only: [:show, :update, :destroy]
 
-  # GET /cards
   def index
-    @cards = policy_scope(Card.joins("LEFT JOIN comments on cards.id = comments.card_id AND comments.parent_id IS NULL").
-    group(:id).order('COUNT(comments.id) DESC')).flatten
+    @cards = policy_scope(Card.joins("LEFT JOIN comments on cards.id = comments.card_id").group(:id).order('COUNT(comments.id) DESC')).flatten
 
     render json: @cards
   end
 
-  # GET /cards/1
   def show
     render json: @card
   end
 
-  # POST /cards
   def create
     @card = Card.new(card_params)
 
@@ -25,7 +21,6 @@ class CardsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /cards/1
   def update
     if @card.update(card_params)
       render json: @card
@@ -34,18 +29,15 @@ class CardsController < ApplicationController
     end
   end
 
-  # DELETE /cards/1
   def destroy
     @card.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_card
       @card = Card.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def card_params
       params.require(:card).permit(:title, :description, :list_id)
     end
