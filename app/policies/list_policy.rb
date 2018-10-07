@@ -25,11 +25,11 @@ attr_reader :user, :list
   end
 
   def assign_member?
-    @user.is_admin?
+    @user.admin? && his_own_list
   end
 
   def unassign_member?
-    @user.is_admin?
+    @user.admin? && his_own_list
   end
 
   class Scope < Scope
@@ -37,7 +37,7 @@ attr_reader :user, :list
       if @user.admin?
         scope.by_admin
       else
-        scope.by_member(@user.id)
+        @user.lists
       end
     end
   end

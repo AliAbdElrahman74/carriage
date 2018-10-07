@@ -7,6 +7,5 @@ class List < ActiveRecord::Base
 
   #scopes
   scope :by_admin, -> {List.all}
-  scope :by_member, -> (user_id) {where(user_id: user_id)}
 
 end

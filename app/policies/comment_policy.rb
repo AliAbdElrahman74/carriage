@@ -15,11 +15,11 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def update?
-    @comment.user_id == @user_id
+    @comment.user_id == @user_id or (his_own_list && @user.admin?)
   end
 
   def destroy?
-    @comment.user_id == @user_id
+    @comment.user_id == @user_id or (his_own_list && @user.admin?)
   end
 
   class Scope < Scope
@@ -34,6 +34,6 @@ class CommentPolicy < ApplicationPolicy
 
   private
   def his_own_list
-    @user.list_ids.include? @list.id
+    @user.list_ids.include? @comment.list_id
   end
 end
