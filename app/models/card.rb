@@ -19,7 +19,7 @@ class Card < ActiveRecord::Base
   private
   def self.member_cards(user_id)
     cards = Set.new
-    cards << (where(user_id: user_id) + List.includes(:cards).where(user_id: user_id).map {|list| list.cards}).flatten.uniq
+    cards << (where(user_id: user_id) + User.includes(lists: [:cards]).find(user_id).lists.map {|list| list.cards}).flatten.uniq
     cards
   end
 end

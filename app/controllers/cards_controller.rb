@@ -3,7 +3,8 @@ class CardsController < ApplicationController
 
   # GET /cards
   def index
-    @cards = policy_scope(Card.joins("LEFT JOIN comments on cards.id = comments.card_id").group(:id).order('COUNT(comments.id) DESC')).flatten
+    @cards = policy_scope(Card.joins("LEFT JOIN comments on cards.id = comments.card_id AND comments.parent_id IS NULL").
+    group(:id).order('COUNT(comments.id) DESC')).flatten
 
     render json: @cards
   end
