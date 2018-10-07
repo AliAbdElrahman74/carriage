@@ -36,25 +36,21 @@ class ListsController < ApplicationController
   end
 
   def assign_member
-    user_id = params[:user_id].to_i
-    user_ids = @list.user_ids
-    if user_ids.include? user_id
-      render json: "The resource is already existed", status: 409
-      return
+    message = List.assign_member(params, @list)
+    if message == "success"
+      render json: render_success_message
+    else
+      render json: message, status: 409
     end
-    @list.user_ids = user_ids + [user_id]
-    render json: render_success_message
   end
 
   def unassign_member
-    user_id = params[:user_id].to_i
-    user_ids = @list.user_ids
-    unless user_ids.include? user_id
-      render json: "The resource is already not existed", status: 402
-      return
+    message = List.unassign_member(params, @list)
+    if message == "success"
+      render json: render_success_message
+    else
+      render json: message, status: 402
     end
-    @list.user_ids = user_ids - [user_id]
-    render json: render_success_message
   end
 
   private
