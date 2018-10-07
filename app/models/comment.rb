@@ -22,7 +22,7 @@ class Comment < ActiveRecord::Base
 
   private
   def self.member_comments(user_id)
-    (where(user_id: user_id) + List.includes(:comments).where(user_id: user_id).map {|list| list.comments}).flatten.uniq
-
+    (where(user_id: user_id) + User.includes(lists: [:comments]).find(user_id).lists.map {|list| list.comments}).flatten.uniq
+    
   end
 end

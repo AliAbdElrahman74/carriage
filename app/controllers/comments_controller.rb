@@ -6,10 +6,7 @@ class CommentsController < ApplicationController
   # GET /comments
   def index
     @comments = apply_scopes(policy_scope(Comment.paginate(pagination_params)))
-    # render json: {
-    #   comments: serialized_object(@comments),
-    #   meta: pagination_response(@comments)
-    # }
+
     render json: @comments
   end
 
