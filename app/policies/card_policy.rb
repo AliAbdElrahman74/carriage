@@ -6,19 +6,19 @@ class CardPolicy < ApplicationPolicy
     @card = card
   end
 
-  def index
+  def index?
 
   end
 
-  def create
+  def create?
     @user.is_admin?
   end
 
-  def update
+  def update?
     @card.user_id == @user.id or card_in_user_lists
   end
 
-  def destroy
+  def destroy?
     @card.user_id == @user.id or card_in_user_lists
   end
 

@@ -6,19 +6,27 @@ class CommentPolicy < ApplicationPolicy
     @comment = comment
   end
 
-  def index
+  def index?
 
   end
 
-  def create
+  def create?
     @user.is_admin?
   end
 
-  def update
+  def update?
     @comment.user_id == @user_id
   end
 
-  def destroy
+  def destroy?
     @comment.user_id == @user_id
+  end
+
+  def assign_member?
+    @user.is_admin?
+  end
+
+  def unassign_member?
+    @user.is_admin?
   end
 end

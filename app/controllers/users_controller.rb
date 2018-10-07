@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  # before_action :authenticate_user!, :except => [:sign_in]
 
   def index
     @users = User.paginate(pagination_params).all

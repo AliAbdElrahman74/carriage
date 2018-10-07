@@ -17,5 +17,10 @@ module CognitevTask
       end
     end
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.to_prepare do
+      DeviseController.skip_before_filter :authenticate_user!
+
+    end
   end
 end
