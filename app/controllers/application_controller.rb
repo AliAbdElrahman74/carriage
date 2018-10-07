@@ -2,6 +2,42 @@ class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :authenticate_user!
   include Pundit
+  rescue_from Exception, :with => :rescue_global_exceptions
+  rescue_from Pundit::NotAuthorizedError, with: :render_403_response
+
+
+  def rescue_global_exceptions(exception)
+      if Rails.application.config.consider_all_requests_local
+        raise( exception )
+      else
+        render_exception_response(exception)
+      end
+  end
+
+  def render_exception_response(exception)
+    if [ActionController::RoutingError, ActiveRecord::RecordNotFound].include?(exception.class)
+        render_404_response
+    elsif exception.class == Pundit::NotAuthorizedError
+        render_403_response(exception)
+    else
+        render json: {
+          error_code: 'CARR002', error_message: 'something went wrong'
+        }, status: 500
+    end
+  end
+
+  def render_404_response
+      render json: {
+        error_code: 'CARR001', error_message: 'resource not found'
+      }, status: 404
+  end
+
+  def render_403_response(exception)
+    render json: {
+      reasons: 'not_authorized',
+      error_code: 'CARR003', error_message: "user is not authorized"
+      } , status: 403
+  end
 
   def serialized_object(object,options={})
       options[:scope] = current_user

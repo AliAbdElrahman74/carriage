@@ -3,7 +3,6 @@ class ListsController < ApplicationController
 
   # GET /lists
   def index
-    authorize List
     @lists = policy_scope(List).paginate(pagination_params).all
     render json: {
       lists: serialized_object(@lists),
