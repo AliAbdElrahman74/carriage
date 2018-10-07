@@ -1,11 +1,17 @@
 class Comment < ActiveRecord::Base
 
+  #Relations
   has_many :replies, dependent: :destroy, :class_name => "Comment", :foreign_key => "parent_id"
   belongs_to :parent, :class_name => "Comment"
-
   belongs_to :user
   belongs_to :card
   belongs_to :list
+
+  #Validations
+  validates :content , presence: true
+  validates :user, presence: true
+  validates :list, presence: true
+  validates :card, presence: true
 
   #scopes
   scope :by_comment, -> (parent_id) {where(parent_id: parent_id).order(created_at: :desc)}
