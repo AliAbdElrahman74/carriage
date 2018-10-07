@@ -84,6 +84,8 @@ GEM
     orm_adapter (0.5.0)
     pg (0.21.0)
     puma (3.11.3)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (1.6.9)
     rack-cors (1.0.2)
     rack-test (0.6.3)
@@ -153,7 +155,6 @@ GEM
       thread_safe (~> 0.1)
     warden (1.2.7)
       rack (>= 1.0)
-    will_paginate (3.1.6)
 
 PLATFORMS
   ruby
@@ -165,13 +166,13 @@ DEPENDENCIES
   factory_bot_rails
   pg (~> 0.9)
   puma (~> 3.11, >= 3.11.3)
+  pundit (~> 1.1)
   rack-cors
   rails (= 4.2.4)
   rails-api
   rspec-rails (~> 3.6)
   shoulda-matchers (~> 3.1)
   spring
-  will_paginate (~> 3.1.0)
 
 BUNDLED WITH
    1.16.2
