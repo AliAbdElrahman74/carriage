@@ -4,6 +4,9 @@ class ApplicationController < ActionController::API
   include Pundit
   rescue_from Exception, :with => :rescue_global_exceptions
   rescue_from Pundit::NotAuthorizedError, with: :render_403_response
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+
 
 
   def rescue_global_exceptions(exception)
@@ -66,5 +69,11 @@ class ApplicationController < ActionController::API
 
   def render_success_message
     {code: 200, message: "Action is done successfully"}
+  end
+
+  protected
+
+  def configure_permitted_parameters
+     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
   end
 end
